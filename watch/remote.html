@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0E6B63">
+<title>متابعة TEMO</title>
+<style>
+:root{--teal:#0E6B63;--teal2:#0b5650;--sand:#EEF1F0;--card:#fff;--ink:#1d2a28;--mut:#6b7b78;--line:#D9DFDD;--busy:#8f2a2a;--warn:#b5651d}
+*{box-sizing:border-box}
+body{margin:0;font-family:Tahoma,Arial,sans-serif;background:var(--sand);color:var(--ink);-webkit-tap-highlight-color:transparent}
+header{position:sticky;top:0;z-index:5;background:var(--teal);color:#fff;padding:10px 14px 8px}
+.hrow{display:flex;align-items:center;justify-content:space-between;gap:8px}
+h1{font-size:19px;margin:0}
+.ro{font-size:12px;background:rgba(255,255,255,.18);padding:3px 8px;border-radius:20px;white-space:nowrap}
+.sub{font-size:12px;opacity:.9;margin-top:4px;display:flex;gap:10px;flex-wrap:wrap}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#7CFC9A;margin-left:4px}
+.dot.off{background:#ff8b8b}
+nav{display:flex;gap:6px;padding:8px 10px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:58px;z-index:4;overflow-x:auto}
+nav button{flex:1;min-width:76px;border:1px solid var(--line);background:#fff;color:var(--teal);padding:9px 6px;border-radius:10px;font:inherit;font-size:14px}
+nav button.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+main{max-width:980px;margin:0 auto;padding:12px}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}
+@media(min-width:700px){.kpis{grid-template-columns:repeat(4,1fr)}}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px}
+.kpi .l{font-size:12px;color:var(--mut)}.kpi .v{font-size:20px;font-weight:bold;margin-top:3px}
+.bar{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.chip{border:1px solid var(--teal);color:var(--teal);background:#fff;border-radius:20px;padding:6px 12px;font:inherit;font-size:13px}
+.chip.on{background:var(--teal);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}
+.t{background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px 8px;text-align:center;min-height:74px;cursor:pointer}
+.t.busy{background:var(--busy);color:#fff;border-color:var(--busy)}
+.t .n{font-weight:bold;font-size:14px}.t .a{font-size:15px;margin-top:4px}.t .m{font-size:11px;opacity:.85;margin-top:2px}
+.list{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:11px 12px;border-bottom:1px solid #E8ECEB;cursor:pointer}
+.row:last-child{border-bottom:0}
+.row .x{font-size:12px;color:var(--mut);margin-top:2px}
+.amt{font-weight:bold;white-space:nowrap}
+.tag{font-size:11px;padding:2px 7px;border-radius:10px;background:#eef6f5;color:var(--teal);margin-right:4px}
+.tag.v{background:#fbeaea;color:var(--busy)}
+.empty{padding:24px;text-align:center;color:var(--mut)}
+input[type=search],input[type=password]{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;font:inherit;font-size:15px;background:#fff}
+.btn{width:100%;padding:13px;border:0;border-radius:10px;background:var(--teal);color:#fff;font:inherit;font-size:16px;margin-top:10px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;max-width:420px;margin:30px auto}
+.err{color:var(--busy);font-weight:bold;min-height:20px;margin-top:8px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:flex-end;justify-content:center;z-index:20}
+.modal.on{display:flex}
+.sheet{background:#fff;width:100%;max-width:560px;max-height:86vh;overflow:auto;border-radius:16px 16px 0 0;padding:14px}
+@media(min-width:700px){.modal{align-items:center}.sheet{border-radius:16px}}
+.sheet h3{margin:0 0 4px;color:var(--teal)}
+.ln{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px dashed #E1E6E4}
+.ln .d{font-size:12px;color:var(--mut)}
+.pend{font-size:11px;color:var(--warn)}
+.tot{display:flex;justify-content:space-between;font-weight:bold;font-size:17px;padding-top:10px}
+.close{float:left;border:0;background:#EEF1F0;border-radius:8px;padding:6px 12px;font:inherit}
+.meth{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.meth span{font-size:12px;background:#E8ECEB;border-radius:8px;padding:3px 8px}
+.foot{font-size:11px;color:var(--mut);text-align:center;margin:18px 0 30px}
+.hide{display:none}
+.stale{background:#fff4e5;color:#7a4a00;border:1px solid #f1c27d;border-radius:10px;padding:8px 10px;margin-bottom:10px;font-size:13px}
+.msg{font-size:13px;color:var(--mut)}
+</style>
+</head>
+<body>
+<header>
+  <div class="hrow"><h1 id="cafe">TEMO</h1><span class="ro">👁 مشاهدة فقط</span></div>
+  <div class="sub"><span><span class="dot off" id="dot"></span><span id="upd">بيحمّل...</span></span><span id="shiftInfo"></span></div>
+</header>
+
+<div id="loginView" class="hide">
+  <div class="card">
+    <h3 style="margin-top:0;color:#0E6B63">متابعة الكافيه من البيت</h3>
+    <p id="loginMsg" class="msg">اكتب باسورد المتابعة (اللي اتعمل من لوحة المالك على جهاز الكافيه).</p>
+    <input id="pw" type="password" autocomplete="current-password" placeholder="باسورد المتابعة">
+    <button class="btn" id="loginBtn">دخول</button>
+    <div class="err" id="loginErr"></div>
+  </div>
+</div>
+
+<div id="appView" class="hide">
+  <nav>
+    <button data-tab="tables" class="on">الطاولات</button>
+    <button data-tab="checks">الشيكات</button>
+    <button data-tab="shifts">الورديات</button>
+  </nav>
+  <main>
+    <div id="stale" class="stale hide"></div>
+    <div class="kpis">
+      <div class="kpi"><div class="l">مبيعات الوردية</div><div class="v" id="kSales">—</div></div>
+      <div class="kpi"><div class="l">عدد الشيكات</div><div class="v" id="kCount">—</div></div>
+      <div class="kpi"><div class="l">طاولات مفتوحة</div><div class="v" id="kOpen">—</div></div>
+      <div class="kpi"><div class="l">على الطاولات دلوقتي</div><div class="v" id="kOpenAmt">—</div></div>
+    </div>
+    <section id="tab-tables">
+      <div class="bar"><button class="chip on" id="onlyBusy">المفتوحة بس</button><button class="chip" id="allTables">كل الطاولات</button></div>
+      <div class="grid" id="tables"></div>
+    </section>
+    <section id="tab-checks" class="hide">
+      <div class="bar" style="flex-wrap:nowrap"><input type="search" id="q" placeholder="دوّر في شيكات الوردية دي (مثلاً: طاولة 12)"></div>
+      <div id="meth" class="meth" style="margin-bottom:10px"></div>
+      <div class="list" id="checks"></div>
+    </section>
+    <section id="tab-shifts" class="hide">
+      <div class="list" id="shifts"></div>
+    </section>
+    <div class="foot">TEMO — الصفحة دي بتتحدّث لوحدها. البيانات متشفّرة بباسورد المتابعة، ومفيش أي تعديل بيتعمل من هنا.<br><a href="#" id="logout" style="color:#6b7b78">خروج من الجهاز ده</a></div>
+  </main>
+</div>
+
+<div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
+
+<script>
+(function () {
+  var ID = (location.pathname.match(/\/c\/([a-f0-9]{16,40})/) || [])[1] || '';
+  var KK = 'temo_rw_key_' + ID;
+  var key = null, S = null, dt = 0, lastT = 0, lastOk = 0, tab = 'tables', onlyBusy = true, q = '';
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function money(n) { n = Math.round(Number(n || 0) * 100) / 100; return n.toLocaleString('en-US') + ' ج'; }
+  function hm(t) { if (!t) return ''; return new Date(Number(t)).toLocaleTimeString('ar-EG', { hour: 'numeric', minute: '2-digit' }); }
+  function dtx(t) { if (!t) return ''; return new Date(Number(t)).toLocaleDateString('ar-EG', { weekday: 'short', day: 'numeric', month: 'numeric' }) + ' ' + hm(t); }
+  function ago(t) { var m = Math.max(0, Math.round((Date.now() - Number(t)) / 60000)); if (m < 1) return 'أقل من دقيقة'; if (m < 60) return m + ' د'; if (m < 1440) return Math.floor(m / 60) + ' س ' + (m % 60) + ' د'; return Math.floor(m / 1440) + ' يوم'; }
+  function lineTotal(l) { return Number(l.price || 0) * Number(l.qty || 0); }
+  function orderTotal(o) { return (o && o.lines || []).reduce(function (a, l) { return a + lineTotal(l); }, 0); }
+  function showLogin(msg) { $('appView').classList.add('hide'); $('loginView').classList.remove('hide'); if (msg) $('loginMsg').textContent = msg; }
+  function showApp() { $('loginView').classList.add('hide'); $('appView').classList.remove('hide'); }
+
+  if (!ID) { showLogin('الرابط ناقص — خد الرابط تاني من لوحة المالك.'); $('pw').style.display = $('loginBtn').style.display = 'none'; return; }
+  if (!window.crypto || !crypto.subtle || typeof DecompressionStream === 'undefined') { showLogin('المتصفح ده قديم — افتح الرابط من Chrome أو Safari بعد التحديث.'); $('pw').style.display = $('loginBtn').style.display = 'none'; return; }
+
+  function b64(s) { var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
+  function hex(u) { return Array.prototype.map.call(new Uint8Array(u), function (x) { return ('0' + x.toString(16)).slice(-2); }).join(''); }
+  function unhex(h) { var u = new Uint8Array(h.length / 2); for (var i = 0; i < u.length; i++) u[i] = parseInt(h.substr(i * 2, 2), 16); return u; }
+  function derive(pw) {
+    var enc = new TextEncoder();
+    return crypto.subtle.importKey('raw', enc.encode(pw), 'PBKDF2', false, ['deriveBits']).then(function (k) {
+      return crypto.subtle.deriveBits({ name: 'PBKDF2', salt: enc.encode('temo-watch:' + ID), iterations: 150000, hash: 'SHA-256' }, k, 256);
+    });
+  }
+  function useRaw(raw) { return crypto.subtle.importKey('raw', raw, 'AES-GCM', false, ['decrypt']); }
+  function decrypt(k, data) {
+    var u = b64(data);
+    return crypto.subtle.decrypt({ name: 'AES-GCM', iv: u.slice(0, 12) }, k, u.slice(12)).then(function (gz) {
+      var st = new Blob([gz]).stream().pipeThrough(new DecompressionStream('gzip'));
+      return new Response(st).text();
+    }).then(function (t) { return JSON.parse(t); });
+  }
+
+  var pending = null;  // the last encrypted text we could not open yet (no / wrong password)
+  $('loginBtn').onclick = function () {
+    var pw = $('pw').value; if (!pw) return;
+    $('loginErr').textContent = ''; $('loginBtn').disabled = true; $('loginBtn').textContent = 'لحظة...';
+    var raw;
+    derive(pw).then(function (r) { raw = r; return useRaw(r); }).then(function (k) {
+      if (!pending) { key = k; try { localStorage.setItem(KK, hex(raw)); } catch (e) {} poll(); return; }
+      return decrypt(k, pending.d).then(function (d) {
+        key = k; try { localStorage.setItem(KK, hex(raw)); } catch (e) {}
+        $('pw').value = ''; got(d, pending); pending = null;
+      });
+    }).catch(function () { $('loginErr').textContent = 'الباسورد غلط'; })
+      .then(function () { $('loginBtn').disabled = false; $('loginBtn').textContent = 'دخول'; });
+  };
+  $('pw').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('loginBtn').click(); });
+  $('logout').onclick = function (e) { e.preventDefault(); try { localStorage.removeItem(KK); } catch (x) {} key = null; S = null; dt = 0; showLogin('اكتب باسورد المتابعة.'); };
+
+  function got(d, r) { S = d; dt = r.dt; lastT = r.t; lastOk = Date.now(); showApp(); render(); status(); }
+  var polling = false;
+  function poll() {
+    if (polling) return; polling = true;
+    fetch('/d/' + ID + '?have=' + (key && S ? dt : 0), { cache: 'no-store' }).then(function (r) {
+      if (r.status === 404) { showLogin('الكافيه لسه مبعتش أي بيانات. اتأكد إن «المتابعة من البيت» متفعّلة على جهاز الكافيه وإن عنده نت.'); $('pw').style.display = $('loginBtn').style.display = 'none'; throw 0; }
+      return r.json();
+    }).then(function (r) {
+      $('pw').style.display = $('loginBtn').style.display = '';
+      lastOk = Date.now(); lastT = r.t || lastT;
+      if (!r.d) { status(); return; }
+      if (!key) { pending = r; showLogin(); return; }
+      return decrypt(key, r.d).then(function (d) { got(d, r); }, function () {
+        pending = r; key = null; try { localStorage.removeItem(KK); } catch (e) {}
+        showLogin('الباسورد اتغيّر من جهاز الكافيه — اكتب الباسورد الجديد.');
+      });
+    }).catch(function () { status(); }).then(function () { polling = false; });
+  }
+  function status() {
+    var net = lastOk && Date.now() - lastOk < 30000;
+    var cafeOn = lastT && Date.now() - lastT < 6 * 60000;
+    $('dot').className = 'dot' + (net && cafeOn ? '' : ' off');
+    $('upd').textContent = !net ? 'مفيش نت عندك' : !cafeOn ? 'الكافيه مش متصل' : 'متصل';
+    var st = $('stale');
+    if (S && lastT && !cafeOn) { st.textContent = '⚠️ جهاز الكافيه مبعتش من ' + ago(lastT) + ' (النت عنده فاصل أو الجهاز مقفول). الأرقام اللي تحت هي آخر حاجة وصلت.'; st.classList.remove('hide'); }
+    else if (S && S.now && Date.now() - S.now > 60000) { st.textContent = 'آخر تحديث للأرقام من ' + ago(S.now) + ' — بيتحدّث كل 15 ثانية وانت فاتح الصفحة.'; st.classList.remove('hide'); }
+    else st.classList.add('hide');
+  }
+
+  function shiftSales() { return S ? (S.sales || []) : []; }
+  function render() {
+    if (!S) return;
+    $('cafe').textContent = S.cafeName || 'TEMO';
+    document.title = 'متابعة ' + (S.cafeName || 'TEMO');
+    $('shiftInfo').textContent = S.shift && S.shift.openedAt ? 'الوردية من ' + dtx(S.shift.openedAt) : 'مفيش وردية مفتوحة';
+    var ss = shiftSales(), tot = ss.reduce(function (a, x) { return a + Number(x.total || 0); }, 0);
+    var open = (S.tables || []).filter(function (t) { var o = t.orderId && S.orders[t.orderId]; return o && (o.lines || []).length; });
+    $('kSales').textContent = money(tot);
+    $('kCount').textContent = ss.length;
+    $('kOpen').textContent = open.length + ' / ' + (S.tables || []).length;
+    $('kOpenAmt').textContent = money(open.reduce(function (a, t) { return a + orderTotal(S.orders[t.orderId]); }, 0));
+    renderTables(); renderChecks(); renderShifts();
+  }
+  function renderTables() {
+    var html = '';
+    (S.tables || []).forEach(function (t) {
+      var o = t.orderId && S.orders[t.orderId]; var busy = o && (o.lines || []).length;
+      if (onlyBusy && !busy) return;
+      var first = busy ? Math.min.apply(null, o.lines.map(function (l) { return Number(l.sentAt || o.createdAt || Date.now()); })) : 0;
+      var items = busy ? o.lines.reduce(function (a, l) { return a + Number(l.qty || 0); }, 0) : 0;
+      html += '<div class="t' + (busy ? ' busy' : '') + '" data-t="' + esc(t.id) + '"><div class="n">' + esc(t.name) + '</div>'
+        + (busy ? '<div class="a">' + money(orderTotal(o)) + '</div><div class="m">' + items + ' صنف · ' + ago(first) + '</div>' : '<div class="m" style="margin-top:8px">فاضية</div>') + '</div>';
+    });
+    $('tables').innerHTML = html || '<div class="empty" style="grid-column:1/-1">مفيش طاولات مفتوحة دلوقتي</div>';
+  }
+  function lineHtml(l, showPend) {
+    var d = [l.variantName, (l.extraNames || []).join('، '), l.note].filter(Boolean).join(' — ');
+    var pend = showPend && Number(l.qty || 0) > Number(l.sentQty || 0) ? '<div class="pend">لسه متبعتش للبار</div>' : '';
+    return '<div class="ln"><div><div>' + esc(l.qty) + ' × ' + esc(l.itemName) + '</div>' + (d ? '<div class="d">' + esc(d) + '</div>' : '') + pend + '</div><div class="amt">' + money(lineTotal(l)) + '</div></div>';
+  }
+  function openSheet(html) { $('sheet').innerHTML = '<button class="close" id="cl">قفل</button>' + html; $('modal').classList.add('on'); $('cl').onclick = closeSheet; }
+  function closeSheet() { $('modal').classList.remove('on'); }
+  $('modal').addEventListener('click', function (e) { if (e.target === $('modal')) closeSheet(); });
+  $('tables').addEventListener('click', function (e) {
+    var el = e.target.closest('.t'); if (!el || !S) return;
+    var t = (S.tables || []).filter(function (x) { return x.id === el.getAttribute('data-t'); })[0]; if (!t) return;
+    var o = t.orderId && S.orders[t.orderId];
+    if (!o || !(o.lines || []).length) { openSheet('<h3>' + esc(t.name) + '</h3><div class="empty">الطاولة فاضية</div>'); return; }
+    openSheet('<h3>' + esc(t.name) + '</h3><div style="font-size:12px;color:#6b7b78">مفتوحة من ' + hm(o.createdAt) + (o.sentBy ? ' · ' + esc(o.sentBy) : '') + '</div>'
+      + o.lines.map(function (l) { return lineHtml(l, true); }).join('') + '<div class="tot"><span>الإجمالي</span><span>' + money(orderTotal(o)) + '</span></div>');
+  });
+  $('onlyBusy').onclick = function () { onlyBusy = true; this.classList.add('on'); $('allTables').classList.remove('on'); renderTables(); };
+  $('allTables').onclick = function () { onlyBusy = false; this.classList.add('on'); $('onlyBusy').classList.remove('on'); renderTables(); };
+
+  var shownChecks = [];
+  function renderChecks() {
+    var list = shiftSales().slice();
+    var voids = (S.voids || []).map(function (v) { return Object.assign({ __void: true }, v); });
+    if (q) { list = list.filter(function (x) { return String(x.tableName || '').indexOf(q) !== -1; }); voids = voids.filter(function (x) { return String(x.tableName || '').indexOf(q) !== -1; }); }
+    var by = {}; list.forEach(function (x) { var k = x.paymentMethod || 'كاش'; by[k] = (by[k] || 0) + Number(x.total || 0); });
+    $('meth').innerHTML = (q ? '<span>نتايج البحث: ' + list.length + '</span>' : '') + Object.keys(by).map(function (k) { return '<span>' + esc(k) + ': <b>' + money(by[k]) + '</b></span>'; }).join('')
+      + (voids.length ? '<span style="color:#8f2a2a">ملغي: ' + voids.length + '</span>' : '');
+    list = list.concat(voids).sort(function (a, b) { return Number(b.closedAt || b.voidedAt || 0) - Number(a.closedAt || a.voidedAt || 0); });
+    shownChecks = list;
+    $('checks').innerHTML = list.length ? list.map(function (x, i) {
+      return '<div class="row" data-i="' + i + '"><div><div>' + esc(x.tableName || 'تيك أواي') + (x.__void ? '<span class="tag v">ملغي</span>' : '<span class="tag">' + esc(x.paymentMethod || 'كاش') + '</span>') + (x.partial ? '<span class="tag">جزء</span>' : '') + (x.orderType === 'delivery' ? '<span class="tag">🛵 دليفري</span>' : x.orderType === 'takeaway' ? '<span class="tag">🥡 تيك أواي</span>' : '') + '</div>'
+        + '<div class="x">' + hm(x.closedAt || x.voidedAt) + (x.staffName ? ' · ' + esc(x.staffName) : '') + (x.customerName ? ' · ' + esc(x.customerName) : '') + '</div></div><div class="amt">' + money(x.total) + '</div></div>';
+    }).join('') : '<div class="empty">' + (q ? 'مفيش نتايج في الوردية دي' : 'لسه مفيش شيكات في الوردية دي') + '</div>';
+  }
+  $('checks').addEventListener('click', function (e) {
+    var el = e.target.closest('.row'); if (!el) return; var x = shownChecks[Number(el.getAttribute('data-i'))]; if (!x) return;
+    openSheet('<h3>' + esc(x.tableName || 'تيك أواي') + (x.__void ? ' — ملغي' : '') + '</h3><div style="font-size:12px;color:#6b7b78">' + dtx(x.closedAt || x.voidedAt) + ' · ' + esc(x.paymentMethod || '') + (x.staffName ? ' · ' + esc(x.staffName) : '') + (x.voidReason ? ' · السبب: ' + esc(x.voidReason) : '') + '</div>'
+      + (x.lines || []).map(function (l) { return lineHtml(l, false); }).join('') + '<div class="tot"><span>الإجمالي</span><span>' + money(x.total) + '</span></div>'
+      + (x.delivery ? '<div style="font-size:13px;margin-top:8px">' + [x.delivery.name, x.delivery.address, x.delivery.driver && ('الطيار: ' + x.delivery.driver)].filter(Boolean).map(esc).join('<br>') + '</div>' : '')
+      + (x.instaProof === 'yes' ? '<div style="font-size:12px;color:#6b7b78;margin-top:8px">صورة التحويل موجودة على جهاز الكافيه</div>' : ''));
+  });
+  var qt = null;
+  $('q').addEventListener('input', function () { var v = this.value.trim(); clearTimeout(qt); qt = setTimeout(function () { q = v; if (S) renderChecks(); }, 250); });
+
+  function renderShifts() {
+    var hist = (S.shiftHistory || []).slice().reverse(), sums = S.summaries || {};
+    var cur = S.shift && S.shift.openedAt ? '<div class="row" style="cursor:default;background:#eef6f5"><div><div><b>الوردية الحالية</b></div><div class="x">من ' + dtx(S.shift.openedAt) + '</div></div><div class="amt">' + $('kSales').textContent + '</div></div>' : '';
+    $('shifts').innerHTML = cur + (hist.length ? hist.map(function (h) {
+      var sm = sums[h.id];
+      return '<div class="row" data-s="' + esc(h.id) + '"><div><div>' + dtx(h.openedAt) + ' ← ' + hm(h.closedAt) + '</div><div class="x">' + (sm ? sm.count + ' شيك' + (sm.voidCount ? ' · ملغي ' + sm.voidCount : '') : '') + (h.staffName ? ' · ' + esc(h.staffName) : '') + '</div></div><div class="amt">' + (sm ? money(sm.total) : '') + '</div></div>';
+    }).join('') : '<div class="empty">مفيش ورديات قديمة</div>');
+  }
+  $('shifts').addEventListener('click', function (e) {
+    var el = e.target.closest('.row[data-s]'); if (!el || !S) return; var id = el.getAttribute('data-s');
+    var h = (S.shiftHistory || []).filter(function (x) { return x.id === id; })[0] || {}; var sm = (S.summaries || {})[id];
+    if (!sm) { openSheet('<h3>الوردية</h3><div class="empty">مفيش تفاصيل للوردية دي</div>'); return; }
+    var by = sm.byMethod || {};
+    openSheet('<h3>' + dtx(h.openedAt) + ' ← ' + hm(h.closedAt) + '</h3>'
+      + Object.keys(by).map(function (k) { return '<div class="ln"><div>' + esc(k) + '</div><div class="amt">' + money(by[k]) + '</div></div>'; }).join('')
+      + (sm.voidCount ? '<div class="ln"><div style="color:#8f2a2a">ملغي (' + sm.voidCount + ')</div><div class="amt">' + money(sm.voidTotal) + '</div></div>' : '')
+      + '<div class="tot"><span>الإجمالي (' + sm.count + ' شيك)</span><span>' + money(sm.total) + '</span></div>'
+      + '<div style="font-size:12px;color:#6b7b78;margin-top:10px">تفاصيل كل شيك في الورديات القديمة موجودة في لوحة المالك على جهاز الكافيه.</div>');
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll('nav button'), function (b) {
+    b.onclick = function () {
+      var t = b.getAttribute('data-tab'); tab = t;
+      Array.prototype.forEach.call(document.querySelectorAll('nav button'), function (x) { x.classList.toggle('on', x === b); });
+      ['tables', 'checks', 'shifts'].forEach(function (k) { $('tab-' + k).classList.toggle('hide', k !== t); });
+    };
+  });
+
+  var saved = ''; try { saved = localStorage.getItem(KK) || ''; } catch (e) {}
+  (saved && saved.length === 64 ? useRaw(unhex(saved)).then(function (k) { key = k; }) : Promise.resolve()).catch(function () {}).then(function () { poll(); });
+  setInterval(function () { if (!document.hidden) poll(); }, 10000);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) poll(); });
+  setInterval(function () { status(); if (tab === 'tables' && S) renderTables(); }, 30000);
+})();
+</script>
+</body>
+</html>
