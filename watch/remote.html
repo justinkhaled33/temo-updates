@@ -182,13 +182,13 @@ input[type=search],input[type=password]{width:100%;padding:11px;border:1px solid
     }).catch(function () { status(); }).then(function () { polling = false; });
   }
   function status() {
-    var net = lastOk && Date.now() - lastOk < 30000;
+    var net = lastOk && Date.now() - lastOk < 20000;
     var cafeOn = lastT && Date.now() - lastT < 6 * 60000;
     $('dot').className = 'dot' + (net && cafeOn ? '' : ' off');
     $('upd').textContent = !net ? 'مفيش نت عندك' : !cafeOn ? 'الكافيه مش متصل' : 'متصل';
     var st = $('stale');
     if (S && lastT && !cafeOn) { st.textContent = '⚠️ جهاز الكافيه مبعتش من ' + ago(lastT) + ' (النت عنده فاصل أو الجهاز مقفول). الأرقام اللي تحت هي آخر حاجة وصلت.'; st.classList.remove('hide'); }
-    else if (S && S.now && Date.now() - S.now > 60000) { st.textContent = 'آخر تحديث للأرقام من ' + ago(S.now) + ' — بيتحدّث كل 15 ثانية وانت فاتح الصفحة.'; st.classList.remove('hide'); }
+    else if (S && S.now && Date.now() - S.now > 60000) { st.textContent = 'آخر تحديث للأرقام من ' + ago(S.now) + ' — بيتحدّث لوحده كل كام ثانية.'; st.classList.remove('hide'); }
     else st.classList.add('hide');
   }
 
@@ -292,7 +292,7 @@ input[type=search],input[type=password]{width:100%;padding:11px;border:1px solid
 
   var saved = ''; try { saved = localStorage.getItem(KK) || ''; } catch (e) {}
   (saved && saved.length === 64 ? useRaw(unhex(saved)).then(function (k) { key = k; }) : Promise.resolve()).catch(function () {}).then(function () { poll(); });
-  setInterval(function () { if (!document.hidden) poll(); }, 10000);
+  setInterval(function () { if (!document.hidden) poll(); }, 3000);
   document.addEventListener('visibilitychange', function () { if (!document.hidden) poll(); });
   setInterval(function () { status(); if (tab === 'tables' && S) renderTables(); }, 30000);
 })();
